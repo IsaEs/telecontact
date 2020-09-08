@@ -4,6 +4,7 @@ const db = require('../models/index')
 const util = require('../lib/index')
 const debug = require('debug')('app:events:bot')
 const bot = require('../lib/telebot')
+const bcrypt = require('bcrypt')
 
 bot.on('message', onMessage)
 bot.on('polling_error', onPollingError)
@@ -88,13 +89,18 @@ function commandSetEmail(msg, match) {
   // TODO Email check
   updateUser(msg.from.id, { email })
 }
+
 function commandSetPassword(msg, match) {
-  let password_hash = match['input'].split(' ')[1]
-  if (password_hash == undefined) {
+  let password = match['input'].split(' ')[1]
+  if (password == undefined) {
     sendMessage(msg.from.id, 'You need to define password after command')
     return
+  } else {
+    let password_hash = bcrypt.hashSync(password, 8)
+    updateUser(msg.from.id, { password_hash })
+    sendMessage(msg.from.id, 'Your password has been updated.')
   }
-  updateUser(msg.from.id, { password_hash })
+
 }
 
 function onPollingError(error) {
