@@ -87,7 +87,7 @@ function commandSetEmail(msg, match) {
     return
   }
   // TODO Email check
-  updateUser(msg.from.id, { email })
+  db.user.updateFields(msg.from.id, { email })
 }
 
 function commandSetPassword(msg, match) {
@@ -97,7 +97,7 @@ function commandSetPassword(msg, match) {
     return
   } else {
     let password_hash = bcrypt.hashSync(password, 8)
-    updateUser(msg.from.id, { password_hash })
+    db.user.updateFields(msg.from.id, { password_hash })
     sendMessage(msg.from.id, 'Your password has been updated.')
   }
 
@@ -107,15 +107,6 @@ function onPollingError(error) {
   debug(error)
 }
 
-
-function updateUser(id, fields) {
-  db
-    .user
-    .findOne({ where: { id } })
-    .then((result) => {
-      result.update(fields)
-    })
-}
 
 let sendMessage = (id, message) => {
   bot
