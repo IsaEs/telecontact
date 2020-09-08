@@ -10,7 +10,7 @@ bot.on('message', onMessage)
 bot.on('polling_error', onPollingError)
 bot.onText(/\/addform/, commandAddForm)
 bot.onText(/\/listform/, commandListForm)
-bot.onText(/\/setemail/, commandSetEmail)
+//bot.onText(/\/setemail/, commandSetEmail)
 bot.onText(/\/setpassword/, commandSetPassword)
 
 function onMessage(msg) {
@@ -80,15 +80,15 @@ function commandAddForm(msg, match) {
 }
 
 
-function commandSetEmail(msg, match) {
-  let email = match['input'].split(' ')[1]
-  if (email == undefined) {
-    sendMessage(msg.from.id, 'You need to define email after command')
-    return
-  }
-  // TODO Email check
-  db.user.updateFields(msg.from.id, { email })
-}
+// function commandSetEmail(msg, match) {
+//   let email = match['input'].split(' ')[1]
+//   if (email == undefined) {
+//     sendMessage(msg.from.id, 'You need to define email after command')
+//     return
+//   }
+//   // TODO Email check
+//   db.user.updateFields(msg.from.id, { email })
+// }
 
 function commandSetPassword(msg, match) {
   let password = match['input'].split(' ')[1]
