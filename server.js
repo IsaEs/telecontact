@@ -26,6 +26,7 @@ app.all('*', function (req, res, next) {
   }
 })
 
+// Activate Telegram Bot
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 if (TELEGRAM_TOKEN != '') {
   // Telegram bot receiving updates at the route below
@@ -34,9 +35,11 @@ if (TELEGRAM_TOKEN != '') {
     res.sendStatus(200)
   })
 }
+// All Bot Events
 require('./events/bot_events')
 
 app.use('/', require('./routes/form'))
+
 app.get('/', function (req, res) {
   res.status(400).end()
 })
