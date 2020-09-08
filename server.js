@@ -7,8 +7,6 @@ const bodyParser = require('body-parser')
 let app = express()
 const bot = require('./lib/telebot')
 
-// const { v4: uuidv4 } = require('uuid')
-// const db = require('./models/index')
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
