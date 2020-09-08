@@ -34,6 +34,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
+  user.updateFields = function (id, fields) {
+    user
+      .findOne({ where: { id } })
+      .then((result) => {
+        result.update(fields)
+      })
+  }
 
   user.prototype.authorize = async function () {
     debug('Authenticate...', process.env.JWT_SECRET_KEY)
