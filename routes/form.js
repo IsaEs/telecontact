@@ -11,6 +11,10 @@ let handle_form = (req, res) => {
     res.status(500).send({ error: 'You have to set the parameters correctly.' })
     return
   }
+  if (!req.body.message) {
+    res.status(500).send({ error: 'You have to set an  empty message.' })
+    return
+  }
   let formId = req.params.formid
 
   // Todo check form identity
@@ -22,6 +26,16 @@ let handle_form = (req, res) => {
       let url = website.url
       let message = `<b>Form: </b>${url}\n<b>Name: </b>${req.body.name}\n<b>Email: ${req.body.replyto}</b>
       <i>${req.body.message}</i>`
+      db.message.create({
+        name: req.body.name,
+        email: req.body.replyto,
+        message: req.body.message,
+        formId,
+        userId,
+      }).catch(() => {
+        bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
+      })
+
       bot.sendMessage(userId, message, { parse_mode: 'html' })
       res.sendStatus(200)
     })
