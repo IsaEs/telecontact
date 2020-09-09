@@ -1,8 +1,9 @@
 let express = require('express')
 let router = express.Router()
 const dform = require('debug')('app:routes:handle_form')
-const bot = require('../lib/telebot')
-const db = require('../models/index')
+const { bot } = require('../lib')
+const db = require('../models')
+//const { mailer } = require('../lib')
 
 
 let handle_form = (req, res) => {

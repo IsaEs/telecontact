@@ -5,7 +5,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 let app = express()
-const bot = require('./lib/telebot')
+const { bot } = require('./lib')
 const asterisk = '*'
 app.use(cors())
 app.use(express.json())
