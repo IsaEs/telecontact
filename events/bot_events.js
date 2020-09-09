@@ -25,15 +25,16 @@ function commandListForm(msg, match) {
     .website
     .findAll({ where: { userId: msg.from.id } })
     .then(websites => {
-      if (websites == null) {
-        sendMessage('You did\'not set any form yet')
-      } else {
+      let sites = 'You did\'not set any form yet'
+      if (websites != null) {
+        sites = ''
         websites.forEach(record => {
-          let message = `Site:  ${record.url}\nFormID: ${record.formId}`
-          sendMessage(msg.chat.id, message)
+          let message = `Site:  ${record.url}\nFormID: ${record.formId}\n`
+          sites += message
         })
-
       }
+
+      sendMessage(msg.chat.id, sites)
       return
     }).catch(err => { debug('Err', err); sendMessage(msg.chat.id, 'Our servers not available right now. Please try again later.') })
 
