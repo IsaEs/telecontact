@@ -1,9 +1,8 @@
 
 const { v4: uuidv4 } = require('uuid')
 const db = require('../models/index')
-const util = require('../lib/index')
+const { bot, formattedTime } = require('../lib')
 const debug = require('debug')('app:events:bot')
-const bot = require('../lib/telebot')
 const bcrypt = require('bcrypt')
 
 bot.on('message', onMessage)
@@ -14,7 +13,7 @@ bot.onText(/\/listform/, commandListForm)
 bot.onText(/\/setpassword/, commandSetPassword)
 
 function onMessage(msg) {
-  debug(`[${util.formattedTime(msg.date)}] Message (${msg.message_id}) received from @${msg.from.username} (${msg.from.id})`)
+  debug(`[${formattedTime(msg.date)}] Message (${msg.message_id}) received from @${msg.from.username} (${msg.from.id})`)
   //debug(msg)
 }
 
