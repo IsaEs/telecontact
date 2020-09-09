@@ -35,7 +35,7 @@ function commandListForm(msg, match) {
 
       }
       return
-    }).error(err => { debug('Err', err); sendMessage(msg.chat.id, 'Something went wrong') })
+    }).catch(err => { debug('Err', err); sendMessage(msg.chat.id, 'Our servers not available right now. Please try again later.') })
 
 }
 
@@ -76,7 +76,7 @@ function commandAddForm(msg, match) {
         })
       }
       return
-    }).error(err => { debug('Err', err); sendMessage('Something went wrong') })
+    }).catch(err => { debug('Err', err); sendMessage('Our servers not available right now. Please try again later.') })
 }
 
 
