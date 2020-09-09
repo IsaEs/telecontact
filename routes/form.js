@@ -25,7 +25,7 @@ let handle_form = (req, res) => {
       bot.sendMessage(userId, message, { parse_mode: 'html' })
       res.sendStatus(200)
     })
-    .error(() => { res.sendStatus(500) })
+    .catch(() => { res.sendStatus(500) })
 }
 
 router.post('/form/:formid', handle_form)
