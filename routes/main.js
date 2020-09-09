@@ -16,12 +16,28 @@ let getUserMessages = (req, res) => {
     })
 }
 let updateUserPreferences = (req, res) => {
+  let defaults = {}
+  if (!req.body.formId) {
+    res.status(500).send({ error: 'You have to set formId.' })
+    return
+  }
+  if (!req.body.sendMail && !req.body.saveMessage) {
+    res.status(500).send({ error: 'You have  to set at least on preferences.' })
+    return
+  }
+  if (req.body.sendMail) defaults.sendMail = req.body.sendMail
+  if (req.body.saveMessage) defaults.saveMessage = req.body.saveMessage
+
+  defaults.userId = req.user.id
+  defaults.formId = req.body.formId
+
+  db.preference.upsert(defaults)
   return res.status(200).json({ status: 'okay' })
 }
 
 let updateEmail = (req, res) => {
   debug(req.user)
-  if (!req.body.email == undefined) {
+  if (!req.body.email) {
     res.status(500).send({ error: 'You have to set the email or username.' })
     return
   }
