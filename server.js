@@ -38,6 +38,8 @@ if (TELEGRAM_TOKEN != '') {
 // All Bot Events
 require('./events/bot_events')
 
+// Api 
+app.use('/api/v1', require('./routes/login'))
 app.use('/', require('./routes/form'))
 
 app.get('/', function (req, res) {
