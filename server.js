@@ -6,25 +6,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 let app = express()
 const bot = require('./lib/telebot')
-
+const asterisk = '*'
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// Allow Cors Manually
-app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-  res.header('Access-Control-Allow-Headers',
-    'Origin,X-Requested-With,Authorization,Content-type,Accept,X-Access-Token'
-  )
-  if (req.method === 'OPTIONS') {
-    res.status(200).end()
-  } else {
-    next()
-  }
-})
+app.all(asterisk, require('./middlewares/crossOrigin'))
 
 // Activate Telegram Bot
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
