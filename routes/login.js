@@ -37,6 +37,12 @@ let user_login = async (req, res) => {
   }
 }
 
+
 router.post('/login', user_login)
+
+// let getUserMessages = ()=> {} //TODO
+// let updateUserPreferences = ()=>{} // TODO
+// router.get('/messages', getUserMessages)
+// router.put('/preferences', updateUserPreferences)
 
 module.exports = router
