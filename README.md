@@ -13,6 +13,3 @@ You can also set your email adress via web interface and can get message from yo
 ### Backend
 
 - Implement send mail feature to user enabled.
-- Add disabling features for telegram notification.
-- Add enabling and disabling to email sending.
-- Add store messages features and enabling or disabling store message option.
