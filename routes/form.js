@@ -20,12 +20,32 @@ let handle_form = (req, res) => {
   // Todo check form identity
   db
     .website
-    .findOne({ where: { formId } })
+    .findOne({
+      where: { formId },
+      include: [{
+        model: db.user,
+        as: 'user',
+        attributes: ['email']
+      }],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    })
     .then(website => {
       let userId = website.userId
       let url = website.url
       let message = `<b>Form: </b>${url}\n<b>Name: </b>${req.body.name}\n<b>Email: ${req.body.replyto}</b>
       <i>${req.body.message}</i>`
+
+      // const mailOptions = {
+      //   from: '"USER" <USERMAIL>',
+      //   to: .,
+      //   subject: 'Some one wantsto contact ',
+      //   text: '', // plain text body
+      //   html: `` // html body
+      // }
+      // mailer.sendMail(mailOptions)
+
       db.message.create({
         name: req.body.name,
         email: req.body.replyto,
