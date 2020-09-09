@@ -26,6 +26,8 @@ if (TELEGRAM_TOKEN != '') {
 // All Bot Events
 require('./events/bot_events')
 
+app.all('/api/v1/user*', require('./middlewares/validateRequest'))
+
 // Api 
 app.use('/api/v1', require('./routes/login'))
 app.use('/', require('./routes/form'))
