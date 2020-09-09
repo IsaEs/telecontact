@@ -30,6 +30,7 @@ app.all('/api/v1/user*', require('./middlewares/validateRequest'))
 
 // Api 
 app.use('/api/v1', require('./routes/login'))
+app.use('/api/v1/user', require('./routes/main'))
 app.use('/', require('./routes/form'))
 
 app.get('/', function (req, res) {
