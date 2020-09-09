@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.all(asterisk, require('./middlewares/crossOrigin'))
+
 
 // Activate Telegram Bot
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
@@ -27,6 +27,7 @@ if (TELEGRAM_TOKEN != '') {
 require('./events/bot_events')
 
 app.all('/api/v1/user*', require('./middlewares/validateRequest'))
+app.all(asterisk, require('./middlewares/crossOrigin'))
 
 // Api 
 app.use('/api/v1', require('./routes/login'))
