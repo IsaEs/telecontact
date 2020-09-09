@@ -29,7 +29,7 @@ function commandListForm(msg, match) {
         sendMessage('You did\'not set any form yet')
       } else {
         websites.forEach(record => {
-          let message = `Site:  ${record.url} FormID: ${record.formId}`
+          let message = `Site:  ${record.url}\nFormID: ${record.formId}`
           sendMessage(msg.chat.id, message)
         })
 
@@ -47,7 +47,7 @@ function commandAddForm(msg, match) {
     return
   }
   let formId = uuidv4()
-  let confirmMsg = `Site:  ${url} FormID: ${formId}`
+  let confirmMsg = `Site:  ${url}\nFormID: ${formId}`
   db
     .user
     .findOne({ where: { id: msg.from.id } })
