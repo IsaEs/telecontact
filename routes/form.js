@@ -3,7 +3,7 @@ let router = express.Router()
 const dform = require('debug')('app:routes:handle_form')
 const { bot } = require('../lib')
 const db = require('../models')
-//const { mailer } = require('../lib')
+const { mailer } = require('../lib')
 
 
 let handle_form = (req, res) => {
@@ -38,14 +38,15 @@ let handle_form = (req, res) => {
       let message = `<b>Form: </b>${url}\n<b>Name: </b>${req.body.name}\n<b>Email: ${req.body.replyto}</b>
       <i>${req.body.message}</i>`
 
-      // const mailOptions = {
-      //   from: '"USER" <USERMAIL>',
-      //   to: .,
-      //   subject: 'Some one wantsto contact ',
-      //   text: '', // plain text body
-      //   html: `` // html body
-      // }
-      // mailer.sendMail(mailOptions)
+      const mailOptions = {
+        from: `"Telecontact - ${req.body.name} " <no-reply@telecontact.me>`,
+        to: website.user.email,
+        subject: 'Someone wants to contact with you.',
+        text: req.body.message,
+        html: `<i>${req.body.message}<i>` // html body
+      }
+
+      mailer.sendMail(mailOptions)
 
       db.message.create({
         name: req.body.name,
