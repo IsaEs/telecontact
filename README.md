@@ -7,10 +7,22 @@ Telecontact me works entegrated with Telegram so there is only option to registe
 
 ## API
 
+### Public
+
 |No| Name | Method | Endpoint | Explanation |
 |:----:|:----|:------:|:--------|:-------------|
 |1|Post Form|POST|telecontact.me/form/{hash_id}|             |
-|2|Update Email|PUT|telecontact.me/api/v1/user/email|             |
-|2|Update Preferences|PUT|telecontact.me/api/v1/user/email|             |
-|3|Login|POST|telecontact.me/api/v1/login|             |
-|4|Messages|POST|telecontact.me/api/v1/user/messages|             |
+
+### User
+
+- URL: telecontact.me
+- Base Prefix: /api/v1/
+
+|No| Name | Method | Endpoint | Explanation |
+|:----:|:----|:------:|:--------|:-------------|
+|1|Update Email|PUT|user/email|             |
+|2|Update Preferences|PUT|/user/preferences|             |
+|3|Login|POST|v1/login|             |
+|4|Get All Messages|POST|user/messages|             |
+|5|Delete Messages|DELETE|user/messages|             |
+|6|Delete Form|DELETE|user/form|             |
