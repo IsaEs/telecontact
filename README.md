@@ -1,14 +1,9 @@
 # Telecontact.me - API of your Contact page
 
-TeleContact.me is contact form api for your websites its best for static webpages and also entegrated with Telegram.
-You will direclty message from your phone via telegram. It allows to create a free forms via telegram.
-You can also set your email adress via web interface and can get message from your email.
+TeleContact.me is contact form api for your websites its best for static webpages.
+You will instantly get messaged from contact page to your phone via telegram. It allows to create a free endpoinst and allow you to managed it.
 
-## Register
-
-There is only option to register telecontact.me by having telegram account and start to using our telegram bot [telecontactformbot](https://telegram.me/telecontactformbot). After that you can use basic functions of telecontact.me.
-
-You can add contact form. List your form and get instantly notified when you get update from form.
+Telecontact me works entegrated with Telegram so there is only option to register telecontact.me by having telegram account (for now) and start to using our telegram bot [telecontactformbot](https://telegram.me/telecontactformbot). After that you can use basic functions of telecontact.me. For extra features like saving messages or sending notifiction email to your mail address you can use dashboard with [login](https://telecontact.me/login) here. You need to password via our bot to login with your telegram username.
 
 ## API
 
