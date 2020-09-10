@@ -46,8 +46,27 @@ let updateEmail = (req, res) => {
   res.status(200).send({ msg: 'Email Updated' })
 }
 
+let deleteForm = (req, res) => {
+  debug(req.user)
+  debug(req.hostname)
+  if (!req.body.formId) {
+    res.status(500).send({ error: 'You have to set the formId.' })
+    return
+  }
+  db.website
+    .destroy({
+      where: {
+        formId: req.body.formId,
+        userId: req.user.id
+      }
+    })
+
+  res.status(200).send({ msg: 'Form Updated' })
+}
+
 router.get('/messages', getUserMessages)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
+router.delete('/forms', deleteForm)
 
 module.exports = router
