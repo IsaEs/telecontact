@@ -9,7 +9,7 @@ let getUserMessages = (req, res) => {
     .message
     .findAll({
       where: { userId: req.user.id },
-      attributes: { exclude: ['createdAt', 'id', 'userId'] }
+      attributes: { exclude: ['createdAt', 'userId'] }
     })
     .then(message => {
       return res.status(200).json(message)
@@ -64,9 +64,41 @@ let deleteForm = (req, res) => {
   res.status(200).send({ msg: 'Form Updated' })
 }
 
+let deleteMessages = (req, res) => {
+  debug(req.user)
+  if (!req.body.formId) {
+    res.status(500).send({ error: 'You have to set the formId.' })
+    return
+  }
+  if (!req.body.messages) {
+    res.status(500).send({ error: 'You need to set at least one message id.' })
+    return
+  }
+  let Op = db.Sequelize.Op
+  let messages = req.body.messages
+  let where = {}
+  if (Array.isArray(messages)) {
+    where = {
+      formId: req.body.formId,
+      id: { [Op.in]: messages }
+    }
+  } else {
+    where = {
+      formId: req.body.formId,
+      id: messages
+    }
+  }
+
+  db.message.destroy({ where }).then((data) => {
+    debug(data)
+    res.status(200).send({ msg: 'Updated' })
+  })
+}
+
 router.get('/messages', getUserMessages)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
 router.delete('/forms', deleteForm)
+router.delete('/messages', deleteMessages)
 
 module.exports = router
