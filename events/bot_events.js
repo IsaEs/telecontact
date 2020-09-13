@@ -1,5 +1,5 @@
 
-const { v4: uuidv4 } = require('uuid')
+const nanoid = require('nanoid')
 const db = require('../models/index')
 const { bot, formattedTime } = require('../lib')
 const debug = require('debug')('app:events:bot')
@@ -46,7 +46,7 @@ function commandAddForm(msg, match) {
     sendMessage(msg.from.id, 'You need to define url for your form')
     return
   }
-  let formId = uuidv4()
+  let formId = nanoid(12)
   let confirmMsg = `Site:  ${url}\nFormID: ${formId}`
   db
     .user

@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.createTable('websites', {
       url: { type: Sequelize.STRING },
-      formId: { type: Sequelize.UUID, primaryKey: true },
+      formId: { type: Sequelize.STRING(12), primaryKey: true },
       userId: {
         type: Sequelize.INTEGER,
         references: {

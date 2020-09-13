@@ -1,8 +1,8 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
   const website = sequelize.define('website', {
-    url: { type: DataTypes.STRING },
-    formId: { type: DataTypes.UUID, primaryKey: true },
+    url: { type: DataTypes.STRING, uniqe: true },
+    formId: { type: DataTypes.STRING(12), primaryKey: true },
     userId: DataTypes.INTEGER
   }, {})
   website.associate = function (models) {

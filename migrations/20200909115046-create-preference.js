@@ -19,7 +19,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       formId: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING(12),
         primaryKey: true,
         references: {
           model: 'websites',
