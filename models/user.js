@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     language_code: DataTypes.STRING,
     email: DataTypes.STRING,
     password_hash: DataTypes.STRING,
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    isEmailVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
+    mailToken: { type: DataTypes.STRING(6) },
   }, {})
   user.associate = function () {
     // associations can be defined here

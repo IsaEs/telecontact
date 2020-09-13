@@ -2,6 +2,8 @@ let express = require('express')
 let router = express.Router()
 let db = require('../models/index')
 const debug = require('debug')('app:routes:main')
+const { mailer } = require('../lib')
+const { nanoid } = require('nanoid')
 
 let getUserMessages = (req, res) => {
   debug(req.user)
@@ -41,8 +43,20 @@ let updateEmail = (req, res) => {
     res.status(500).send({ error: 'You have to set the email or username.' })
     return
   }
+  //TODO check email is valid or not
+  let mailToken = nanoid(6)
+  const mailOptions = {
+    from: 'Telecontact <no-reply@telecontact.me>',
+    to: req.body.email,
+    subject: 'Verify your email!',
+    text: `Enter this code to  ${mailToken} verify your email address`,
+    html: `Enter this code to <b>${mailToken}<b> verify your email address.`
+  }
+  mailer.sendMail(mailOptions)
+
   let email = req.body.email
-  db.user.updateFields(req.user.id, { email })
+  let isEmailVerified = false
+  db.user.updateFields(req.user.id, { email, isEmailVerified, mailToken })
   res.status(200).send({ msg: 'Email Updated' })
 }
 
