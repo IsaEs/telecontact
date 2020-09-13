@@ -10,6 +10,7 @@ bot.on('polling_error', onPollingError)
 bot.onText(/\/addform/, commandAddForm)
 bot.onText(/\/listform/, commandListForm)
 //bot.onText(/\/setemail/, commandSetEmail)
+bot.onText(/\/verifyemail/, commandVerifyEmail)
 bot.onText(/\/setpassword/, commandSetPassword)
 
 function onMessage(msg) {
@@ -90,6 +91,28 @@ function commandAddForm(msg, match) {
 //   db.user.updateFields(msg.from.id, { email })
 // }
 
+function commandVerifyEmail(msg, match) {
+  let mailToken = match['input'].split(' ')[1]
+  if (mailToken == undefined) {
+    sendMessage(msg.from.id, 'You need to define verification code after command')
+    return
+  } else {
+    db.user
+      .findOne({ where: { id: msg.from.id } })
+      .then((user) => {
+        debug(JSON.stringify(user))
+        if (user.mailToken != null && user.mailToken == mailToken) {
+          sendMessage(msg.from.id, 'Your email is verified.')
+          user.update({ isEmailVerified: true, mailToken: null })
+        } else {
+          sendMessage(msg.from.id, 'We couldn\'t verified your mail.')
+        }
+      })
+
+  }
+}
+
+
 function commandSetPassword(msg, match) {
   let password = match['input'].split(' ')[1]
   if (password == undefined) {
@@ -100,8 +123,8 @@ function commandSetPassword(msg, match) {
     db.user.updateFields(msg.from.id, { password_hash })
     sendMessage(msg.from.id, 'Your password has been updated.')
   }
-
 }
+
 
 function onPollingError(error) {
   debug(error)
