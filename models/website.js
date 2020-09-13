@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
   website.associate = function (models) {
     website.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id' })
+    website.hasOne(models.preference, { foreignKey: 'formId', targetKey: 'formId' })
   }
   return website
 }
