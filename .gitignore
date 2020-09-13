@@ -114,3 +114,5 @@ dist
 
 # Sqlite Databae 
 db/*
+
+config/config.json

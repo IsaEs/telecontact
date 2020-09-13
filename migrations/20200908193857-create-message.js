@@ -27,7 +27,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       formId: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING(12),
         references: {
           model: 'websites',
           key: 'formId',
