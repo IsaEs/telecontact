@@ -1,5 +1,5 @@
 
-const nanoid = require('nanoid')
+const { nanoid } = require('nanoid')
 const db = require('../models/index')
 const { bot, formattedTime } = require('../lib')
 const debug = require('debug')('app:events:bot')
