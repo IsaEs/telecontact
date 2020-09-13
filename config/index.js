@@ -19,3 +19,8 @@ exports.db_config = {
     'dialect': 'postgres'
   }
 }
+
+exports.telegram_config = {
+  'test': 'https://teleform.isadural.ga',
+  'production': 'https://api.telecontact.me',
+}
