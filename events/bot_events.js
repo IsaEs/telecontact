@@ -18,14 +18,14 @@ function onMessage(msg) {
 }
 
 function commandListForm(msg, match) {
-  debug(match)
-
+  debug('Match', match)
   db
     .website
     .findAll({ where: { userId: msg.from.id } })
     .then(websites => {
+      debug('Forms: ', websites)
       let sites = 'You did\'not set any form yet'
-      if (websites != null) {
+      if (websites != null & websites.length != 0) {
         sites = ''
         websites.forEach(record => {
           let message = `Site:  ${record.url}\nFormID: ${record.formId}\n`
