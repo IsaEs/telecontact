@@ -1,5 +1,3 @@
-const dotnev = require('dotenv')
-dotnev.config()
 exports.mail_config = {
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
@@ -11,12 +9,12 @@ exports.mail_config = {
 }
 
 exports.db_config = {
-  'username': 'isaes',
-  'password': 'klmnbh123',
-  'database': 'teleform-db',
+  'username': process.env.DB_USER,
+  'password': process.env.DB_PASS,
+  'database': process.env.DB_NAME,
   'options': {
-    'host': '127.0.0.1',
-    'dialect': 'postgres'
+    'host': process.env.DB_HOST,
+    'dialect': process.env.DB_DIAL
   }
 }
 
