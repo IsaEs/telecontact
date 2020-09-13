@@ -1,5 +1,3 @@
-const dotnev = require('dotenv')
-dotnev.config()
 // const debug = require('debug')('app:server')
 const express = require('express')
 const cors = require('cors')
