@@ -17,6 +17,19 @@ let getUserMessages = (req, res) => {
       return res.status(200).json(message)
     })
 }
+
+let getUserForms = (req, res) => {
+  db
+    .website
+    .findAll({
+      where: { userId: req.user.id },
+      attributes: { exclude: ['createdAt', 'userId'] }
+    })
+    .then(message => {
+      return res.status(200).json(message)
+    })
+}
+
 let updateUserPreferences = (req, res) => {
   let defaults = {}
   if (!req.body.formId) {
@@ -50,7 +63,7 @@ let updateEmail = (req, res) => {
     to: req.body.email,
     subject: 'Verify your email!',
     text: `Enter this code to  ${mailToken} verify your email address`,
-    html: `Enter this code to <b>${mailToken}<b> verify your email address.`
+    html: `Enter this code to <b>${mailToken}</b> verify your email address.`
   }
   mailer.sendMail(mailOptions)
 
@@ -110,6 +123,7 @@ let deleteMessages = (req, res) => {
 }
 
 router.get('/messages', getUserMessages)
+router.get('/forms', getUserForms)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
 router.delete('/forms', deleteForm)
