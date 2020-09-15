@@ -7,11 +7,13 @@ const bcrypt = require('bcrypt')
 
 bot.on('message', onMessage)
 bot.on('polling_error', onPollingError)
+bot.onText(/\/start/, commandStart)
 bot.onText(/\/addform/, commandAddForm)
 bot.onText(/\/listform/, commandListForm)
 //bot.onText(/\/setemail/, commandSetEmail)
 bot.onText(/\/verifyemail/, commandVerifyEmail)
 bot.onText(/\/setpassword/, commandSetPassword)
+bot.onText(/\/help/, commandHelp)
 
 function onMessage(msg) {
   debug(`[${formattedTime(msg.date)}] Message (${msg.message_id}) received from @${msg.from.username} (${msg.from.id})`)
@@ -123,6 +125,19 @@ function commandSetPassword(msg, match) {
     db.user.updateFields(msg.from.id, { password_hash })
     sendMessage(msg.from.id, 'Your password has been updated.')
   }
+}
+
+//TODO commandStart and commandHelp
+function commandStart(msg, match) {
+  debug('Match', match)
+  let welcome = 'Welcome to our bot.'
+  sendMessage(msg.chat.id, welcome)
+}
+
+function commandHelp(msg, match) {
+  debug('Match', match)
+  let welcome = 'TODO Help Message.'
+  sendMessage(msg.chat.id, welcome)
 }
 
 
