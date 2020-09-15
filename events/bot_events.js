@@ -44,23 +44,24 @@ function commandListForm(msg, match) {
 
 function commandAddForm(msg, match) {
   debug(match)
+  let userId = msg.from.id
   let url = match['input'].split(' ')[1]
   if (url == undefined) {
-    sendMessage(msg.from.id, 'You need to define url for your form')
+    sendMessage(userId, 'You need to define url for your form')
     return
   }
   let formId = nanoid(12)
   let confirmMsg = `Site:  ${url}\nFormID: ${formId}`
   db
     .user
-    .findOne({ where: { id: msg.from.id } })
+    .findOne({ where: { id: userId } })
     .then(user => {
       debug(user)
       if (user == null) {
         db
           .user
           .create({
-            id: msg.from.id,
+            id: userId,
             first_name: msg.from.first_name,
             username: msg.from.username,
             language_code: msg.from.language_code,
@@ -68,18 +69,27 @@ function commandAddForm(msg, match) {
             password_hash: '',
             isDeleted: false
           })
-          .then(() => { db.website.create({ url, formId, userId: msg.from.id }); sendMessage(msg.chat.id, confirmMsg) })
+          .then(() => {
+            createWebsiteAndPreference()
+          })
       } else {
-        db.website.create({
-          url,
-          formId,
-          userId: msg.from.id
-        }).then(() => {
-          sendMessage(msg.chat.id, confirmMsg)
-        })
+        createWebsiteAndPreference()
       }
       return
     }).catch(err => { debug('Err', err); sendMessage('Our servers not available right now. Please try again later.') })
+
+  function createWebsiteAndPreference() {
+    db.website
+      .create({ url, formId, userId })
+      .then(() => {
+        db.preference.create({ formId, userId })
+        sendMessage(msg.chat.id, confirmMsg)
+      })
+      .catch((err) => {
+        debug(err)
+        sendMessage(msg.chat.id, 'You have already add this url!')
+      })
+  }
 }
 
 
