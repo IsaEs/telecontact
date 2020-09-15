@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.createTable('websites', {
-      url: { type: Sequelize.STRING },
+      url: { type: Sequelize.STRING, uniqe: true },
       formId: { type: Sequelize.STRING(12), primaryKey: true },
       userId: {
         type: Sequelize.INTEGER,
