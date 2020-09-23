@@ -30,6 +30,17 @@ let getUserForms = (req, res) => {
     })
 }
 
+let getPreferences = (req, res) => {
+  db.preference
+    .findAll({
+      where: {userId: req.user.id},
+      attributes: { exclude: ['createdAt', 'userId'] }
+    })
+    .then(message => {
+      return res.status(200).json(message)
+    })
+}
+
 let updateUserPreferences = (req, res) => {
   let defaults = {}
   if (!req.body.formId) {
@@ -124,9 +135,10 @@ let deleteMessages = (req, res) => {
 
 router.get('/messages', getUserMessages)
 router.get('/forms', getUserForms)
+router.get('/preferences', getPreferences)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
-router.delete('/forms', deleteForm)
-router.delete('/messages', deleteMessages)
+router.post('/forms', deleteForm)
+router.post('/messages', deleteMessages)
 
 module.exports = router
