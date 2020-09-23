@@ -31,7 +31,7 @@ function commandListForm(msg, match) {
       if (websites != null & websites.length != 0) {
         sites = ''
         websites.forEach(record => {
-          let message = `Site:  ${record.url}\nFormID: ${record.formId}\n`
+          let message = `<b>Site:</b>  ${record.url}\n<b>FormID:</b> ${record.formId}\n`
           sites += message
         })
       }
@@ -140,14 +140,30 @@ function commandSetPassword(msg, match) {
 //TODO commandStart and commandHelp
 function commandStart(msg, match) {
   debug('Match', match)
-  let welcome = 'Welcome to our bot.'
+  let welcome = `
+<b>Welcome to telecontact.me</b> 🎊
+Managing your contact forms will be easy now.\n
+For detailed information about how to use this bot.
+Please visit telecontact.me/help.
+`
   sendMessage(msg.chat.id, welcome)
 }
 
 function commandHelp(msg, match) {
   debug('Match', match)
-  let welcome = 'TODO Help Message.'
-  sendMessage(msg.chat.id, welcome)
+  let message = `
+Visit www.telecontact.me/help for more information.
+• <i><b>I created form how can i use it?</b></i>
+- Visit www.telecontact.me/help
+• <i><b>How many forms I can able to create?</b></i>
+- You are allowed to create three form. (From bot)
+• <i><b>I want to delete my form. How can I delete it?</b></i>
+- You can manage your forms messages and other settings from web admin app.telecontact.me
+• <i><b>How can I login to Web admin ?</b></i>
+You can use web admin with setting up your password  with /setpassword from bot. After the succesfuly set your password. You can login telecontact.me with your telegram username and with this password.
+`
+
+  sendMessage(msg.chat.id, message)
 }
 
 
@@ -158,7 +174,7 @@ function onPollingError(error) {
 
 let sendMessage = (id, message) => {
   bot
-    .sendMessage(id, message)
+    .sendMessage(id, message,{parse_mode : 'HTML'})
     .catch((error) => {
       debug(error.code)
       debug(error.response.body)
