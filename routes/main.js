@@ -133,6 +133,30 @@ let deleteMessages = (req, res) => {
   })
 }
 
+let getProfile = (req, res) => {
+  debug(req.user)
+  db
+    .user
+    .findAll({
+      where: { id: req.user.id },
+      include:[{
+        model:db.website,
+        include:[{
+          model:db.preference,
+          as:'preference',
+          attributes: ['sendMail','saveMessage']
+        }],
+        attributes:{exclude: ['userId','createdAt', 'updatedAt']},
+        as:'websites'
+      }],
+      attributes: { exclude: ['password_hash','mailToken','createdAt', 'updatedAt'] }
+    })
+    .then(message => {
+      return res.status(200).json(message)
+    })
+}
+
+router.get('/profile',getProfile)
 router.get('/messages', getUserMessages)
 router.get('/forms', getUserForms)
 router.get('/preferences', getPreferences)

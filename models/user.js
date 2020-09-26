@@ -14,8 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     isEmailVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
     mailToken: { type: DataTypes.STRING(6) },
   }, {})
-  user.associate = function () {
-    // associations can be defined here
+
+  user.associate = function (models) {
+    user.hasMany(models.website, { foreignKey: 'userId', targetKey: 'id' })
+    user.hasMany(models.preference, { foreignKey: 'userId', targetKey: 'id' })
   }
 
 
