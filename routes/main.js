@@ -137,7 +137,7 @@ let getProfile = (req, res) => {
   debug(req.user)
   db
     .user
-    .findAll({
+    .findOne({
       where: { id: req.user.id },
       include:[{
         model:db.website,
