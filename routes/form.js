@@ -7,7 +7,7 @@ const { mailer } = require('../lib')
 
 
 let handle_form = (req, res) => {
-  debug(req.body)
+  debug(req.headers)
   if (!req.body.name || !req.body.replyto) {
     res.status(500).send({ error: 'You have to set the parameters correctly.' })
     return
@@ -54,6 +54,7 @@ let handle_form = (req, res) => {
         mailer.sendMail(mailOptions)
       }
       if (website.preference.saveMessage) {
+        debug('Message Count:', website.messageCount)
         website.increment('messageCount')
         db.message.create({
           name: req.body.name,
