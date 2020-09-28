@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     formId: { type: DataTypes.STRING(12), primaryKey: true },
     userId: DataTypes.INTEGER,
     messageCount: { type: DataTypes.INTEGER, defaultValue: 0 },
+    // monthlyCount:{ type: DataTypes.INTEGER, defaultValue: 0 },
   }, {})
   website.associate = function (models) {
     website.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id' })
