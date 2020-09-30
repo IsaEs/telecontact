@@ -11,7 +11,12 @@ let getUserMessages = (req, res) => {
     .message
     .findAll({
       where: { userId: req.user.id },
-      attributes: { exclude: ['createdAt', 'userId'] }
+      attributes: { exclude: ['createdAt', 'userId'] },
+      include: [{
+        model: db.website,
+        as: 'website',
+        attributes: ['url']
+      }]
     })
     .then(message => {
       return res.status(200).json(message)
