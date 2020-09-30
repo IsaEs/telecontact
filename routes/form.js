@@ -1,7 +1,7 @@
 let express = require('express')
 let router = express.Router()
 const debug = require('debug')('app:routes:handle_form')
-const { bot } = require('../lib')
+const bot  = require('../extensions/contactbot')
 const db = require('../models')
 const { mailer } = require('../lib')
 

@@ -1,5 +1,5 @@
 process.env.NTBA_FIX_319 = 1
-const { telegram_config } = require('../config')
+const { telegram_config } = require('../../config')
 const telegramBot = require('node-telegram-bot-api')
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 let bot = new telegramBot(TELEGRAM_TOKEN)

@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 let app = express()
-const { bot } = require('./lib')
+
 const asterisk = '*'
 app.use(cors())
 app.use(express.json())
@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 
-
+const bot  = require('./extensions/contactbot')
 // Activate Telegram Bot
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 if (TELEGRAM_TOKEN != '') {
@@ -22,7 +22,7 @@ if (TELEGRAM_TOKEN != '') {
   })
 }
 // All Bot Events
-require('./events/bot_events')
+require('./extensions/contactbot/bot_events') 
 
 app.all('/api/v1/user*', require('./middlewares/validateRequest'))
 app.all(asterisk, require('./middlewares/crossOrigin'))
