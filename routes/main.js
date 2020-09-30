@@ -47,12 +47,14 @@ let updateUserPreferences = (req, res) => {
     res.status(500).send({ error: 'You have to set formId.' })
     return
   }
-  if (!req.body.sendMail && !req.body.saveMessage) {
+  if (!req.body.preference || (!req.body.preference.saveMessage && !req.body.preference.sendMail) ) {
     res.status(500).send({ error: 'You have  to set at least on preferences.' })
     return
   }
-  if (req.body.sendMail) defaults.sendMail = req.body.sendMail
-  if (req.body.saveMessage) defaults.saveMessage = req.body.saveMessage
+  let prefs = req.body.preference
+
+  if (prefs.sendMail) defaults.sendMail = prefs.sendMail
+  if (prefs.saveMessage) defaults.saveMessage = prefs.saveMessage
 
   defaults.userId = req.user.id
   defaults.formId = req.body.formId
@@ -137,7 +139,7 @@ let getProfile = (req, res) => {
   debug(req.user)
   db
     .user
-    .findAll({
+    .findOne({
       where: { id: req.user.id },
       include:[{
         model:db.website,
