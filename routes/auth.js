@@ -3,7 +3,7 @@ let router = express.Router()
 let db = require('../models/index')
 const { createHash, createHmac } = require('crypto')
 const debug = require('debug')('app:routes:signin')
-
+const bcrypt = require('bcrypt')
 
 let user_signin = async (req, res) => {
   debug(req.body)
@@ -70,6 +70,26 @@ function telegram_login(req,res){
   }
 }
 
+let user_signup = (req,res) => {
+  if (!req.body.email && !req.body.password) {
+    res.status(500).send({ error: 'You have to set the email or username.' })
+    return
+  }
+
+  let password_hash = bcrypt.hashSync(req.body.password, 8)
+  
+  db
+    .user
+    .create({
+      email: req.body.email,
+      password_hash
+    }).then(async (user)=>{
+      let result = await user.authorize()
+      res.send(result)
+    })
+
+}
 router.post('/signin', user_signin)
+router.post('/signup', user_signup)
 
 module.exports = router
