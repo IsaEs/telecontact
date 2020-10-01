@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 let app = express()
+let validation = require('./middlewares/validateRequest')
 
 const asterisk = '*'
 app.use(cors())
@@ -27,8 +28,9 @@ if (process.env.NODE_ENV=='production'){
   debug('Bot is disabled in development')
 }
 
-app.all('/api/v1/user*', require('./middlewares/validateRequest'))
 app.all(asterisk, require('./middlewares/crossOrigin'))
+app.all(asterisk, validation.verify)
+app.all('/api/v1/user*', validation.block)
 
 // Api 
 app.use('/api/v1', require('./routes/login'))
