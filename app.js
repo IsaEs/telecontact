@@ -33,7 +33,7 @@ app.all(asterisk, validation.verify)
 app.all('/api/v1/user*', validation.block)
 
 // Api 
-app.use('/api/v1', require('./routes/login'))
+app.use('/api/v1', require('./routes/auth'))
 app.use('/api/v1/user', require('./routes/main'))
 app.use('/', require('./routes/form'))
 
