@@ -1,10 +1,10 @@
 let express = require('express')
 let router = express.Router()
 let db = require('../models/index')
-const debug = require('debug')('app:routes:login')
+const debug = require('debug')('app:routes:signin')
 
 
-let user_login = async (req, res) => {
+let user_signin = async (req, res) => {
   debug(req.body)
   if (!req.body.email && !req.body.username) {
     res.status(500).send({ error: 'You have to set the email or username.' })
@@ -37,6 +37,6 @@ let user_login = async (req, res) => {
 }
 
 
-router.post('/login', user_login)
+router.post('/signin', user_signin)
 
 module.exports = router
