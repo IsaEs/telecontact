@@ -66,7 +66,11 @@ let handle_form = (req, res) => {
           bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
         })
       }
-      bot.sendMessage(userId, message, { parse_mode: 'html' })
+      if(website.preference.tNotification){
+        if(userId!==undefined || userId!=null){
+          bot.sendMessage(userId, message, { parse_mode: 'html' })
+        }
+      }
       res.sendStatus(200)
     })
     .catch((err) => {
