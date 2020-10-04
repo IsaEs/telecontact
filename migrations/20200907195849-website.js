@@ -11,8 +11,9 @@ module.exports = {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE'
       },
+      messageCount: { type: Sequelize.INTEGER, defaultValue: 0 },
       updatedAt: Sequelize.DATE,
       createdAt: Sequelize.DATE
     })
