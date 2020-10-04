@@ -1,7 +1,7 @@
 
 const { nanoid } = require('nanoid')
 const db = require('../../models/index')
-const { formattedTime } = require('../../lib')
+const { formattedTime, mailer  } = require('../../lib')
 const debug = require('debug')('app:extensions:contactbot')
 const bcrypt = require('bcrypt')
 const bot = require('./index')
@@ -11,7 +11,7 @@ bot.on('polling_error', onPollingError)
 bot.onText(/\/start/, commandStart)
 bot.onText(/\/addform/, commandAddForm)
 bot.onText(/\/listform/, commandListForm)
-//bot.onText(/\/setemail/, commandSetEmail)
+bot.onText(/\/setemail/, commandSetEmail)
 bot.onText(/\/verifyemail/, commandVerifyEmail)
 bot.onText(/\/setpassword/, commandSetPassword)
 bot.onText(/\/help/, commandHelp)
@@ -94,15 +94,25 @@ function commandAddForm(msg, match) {
 }
 
 
-// function commandSetEmail(msg, match) {
-//   let email = match['input'].split(' ')[1]
-//   if (email == undefined) {
-//     sendMessage(msg.from.id, 'You need to define email after command')
-//     return
-//   }
-//   // TODO Email check
-//   db.user.updateFields(msg.from.id, { email })
-// }
+function commandSetEmail(msg, match) {
+  let email = match['input'].split(' ')[1]
+  if (email == undefined) {
+    sendMessage(msg.from.id, 'You need to define email after command')
+    return
+  }
+  // TODO Email check
+  let mailToken = nanoid(6)
+  const mailOptions = {
+    from: 'Telecontact <no-reply@telecontact.me>',
+    to: email,
+    subject: 'Verify your email!',
+    text: `Enter this code to  ${mailToken} verify your email address`,
+    html: `Enter this code to <b>${mailToken}</b> verify your email address.`
+  }
+  mailer.sendMail(mailOptions)
+  let isEmailVerified = false
+  db.user.updateFields(msg.from.id, { email,isEmailVerified,mailToken })
+}
 
 function commandVerifyEmail(msg, match) {
   let mailToken = match['input'].split(' ')[1]
