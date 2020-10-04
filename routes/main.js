@@ -163,6 +163,26 @@ let getProfile = (req, res) => {
     })
 }
 
+let addForm =(req,res)=>{
+  let userId =  req.user.id
+  let formId = nanoid(12)
+  if (!req.body.domain) {
+    res.status(500).send({ error: 'You have to set the domain name.' })
+    return
+  }
+  let url = req.body.domain
+  db.website
+    .create({ url, formId, userId })
+    .then(() => {
+      db.preference.create({ formId, userId })
+      res.status(200).send({ url,formId })
+    })
+    .catch((err) => {
+      debug(err)
+      res.status(200).send({ msg: 'Error while adding ' })
+    })
+}
+
 router.get('/profile',getProfile)
 router.get('/messages', getUserMessages)
 router.get('/forms', getUserForms)
@@ -170,6 +190,7 @@ router.get('/preferences', getPreferences)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
 router.post('/forms', deleteForm)
+router.put('/form/add', addForm)
 router.post('/messages', deleteMessages)
 
 module.exports = router
