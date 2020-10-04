@@ -8,6 +8,9 @@ module.exports = {
       saveMessage: {
         type: Sequelize.BOOLEAN, defaultValue: false
       },
+      tNotification: {
+        type: Sequelize.BOOLEAN, defaultValue: false
+      },
       userId: {
         type: Sequelize.INTEGER,
         primaryKey: true,

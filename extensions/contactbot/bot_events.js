@@ -80,10 +80,11 @@ function commandAddForm(msg, match) {
     }).catch(err => { debug('Err', err); sendMessage('Our servers not available right now. Please try again later.') })
 
   function createWebsiteAndPreference() {
+    let tNotification= true
     db.website
       .create({ url, formId, userId })
       .then(() => {
-        db.preference.create({ formId, userId })
+        db.preference.create({ formId, userId,tNotification })
         sendMessage(msg.chat.id, confirmMsg)
       })
       .catch((err) => {
