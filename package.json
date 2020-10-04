@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./bin",
-    "serve": "nodemon ./bin--watch ."
+    "serve": "nodemon ./bin --watch ."
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.5",
