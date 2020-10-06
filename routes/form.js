@@ -39,40 +39,63 @@ let handle_form = (req, res) => {
     .then(website => {
       let userId = website.userId
       let url = website.url
-      let message = `<b>Form: </b>${url}\n<b>Name: </b>${req.body.name}\n<b>Email: ${req.body.replyto}</b>
+      if (!validateUrl(url)){
+        res.status(200).json({message:'Form domain is invalid'})
+        return  
+      }else{
+        let message = `<b>Form: </b>${url}\n<b>Name: </b>${req.body.name}\n<b>Email: ${req.body.replyto}</b>
       <i>${req.body.message}</i>`
 
-      debug('Prefence: ', JSON.stringify(website.preference))
-      if (website.preference.sendMail) {
-        const mailOptions = {
-          from: 'Telecontact <no-reply@telecontact.me>',
-          to: website.user.email,
-          subject: 'Someone wants to contact with you.',
-          text: req.body.name + '\n' + req.body.message + `\n\n Your are getting this mail from ${url}`,
-          html: `<b>${req.body.name}<b><i>${req.body.message}<i> <br> Your are getting this mail from ${url}` // html body
+        debug('Prefence: ', JSON.stringify(website.preference))
+        if (website.preference.sendMail) {
+          const mailOptions = {
+            from: 'Telecontact <no-reply@telecontact.me>',
+            to: website.user.email,
+            subject: 'Someone wants to contact with you.',
+            text: req.body.name + '\n' + req.body.message + `\n\n Your are getting this mail from ${url}`,
+            html: `<b>${req.body.name}<b><i>${req.body.message}<i> <br> Your are getting this mail from ${url}` // html body
+          }
+          mailer.sendMail(mailOptions)
         }
-        mailer.sendMail(mailOptions)
+        if (website.preference.saveMessage) {
+          db.message.create({
+            name: req.body.name,
+            email: req.body.replyto,
+            message: req.body.message,
+            formId,
+            userId,
+          }).catch(() => {
+            if(website.preference.tNotification){
+              bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
+            }
+            return res.status(404)
+          })
+          website.increment('messageCount')
+          debug('Message Count:', website.messageCount)  
+        }
+        if(website.preference.tNotification){
+          if(userId!==undefined || userId!=null){
+            bot.sendMessage(userId, message, { parse_mode: 'html' })
+          }
+        }
+        res.sendStatus(200)
       }
-      if (website.preference.saveMessage) {
-        debug('Message Count:', website.messageCount)
-        website.increment('messageCount')
-        db.message.create({
-          name: req.body.name,
-          email: req.body.replyto,
-          message: req.body.message,
-          formId,
-          userId,
-        }).catch(() => {
-          bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
-        })
-      }
-      bot.sendMessage(userId, message, { parse_mode: 'html' })
-      res.sendStatus(200)
     })
     .catch((err) => {
       debug(err)
       res.sendStatus(500)
     })
+
+  function validateUrl(url){
+    //TODO more advance url referer check this will not work
+    if(req.headers.referer===url){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
 }
 
 router.post('/form/:formid', handle_form)

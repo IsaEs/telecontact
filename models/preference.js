@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: { type: DataTypes.INTEGER, primaryKey: true },
     formId: { type: DataTypes.UUID, primaryKey: true },
     sendMail: { type: DataTypes.BOOLEAN, defaultValue: false },
-    saveMessage: { type: DataTypes.BOOLEAN, defaultValue: false }
+    saveMessage: { type: DataTypes.BOOLEAN, defaultValue: false },
+    tNotification: {type: DataTypes.BOOLEAN, defaultValue: false}
   }, {
     sequelize,
     modelName: 'preference',

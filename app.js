@@ -3,6 +3,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 let app = express()
 let validation = require('./middlewares/validateRequest')
+const rateLimiter = require('express-rate-limit')
+
+const apiLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100
+})
 
 const asterisk = '*'
 app.use(cors())
@@ -32,7 +38,8 @@ app.all('/api/v1/user*', validation.block)
 // Api 
 app.use('/api/v1', require('./routes/auth'))
 app.use('/api/v1/user', require('./routes/main'))
-app.use('/', require('./routes/form'))
+app.use('/api/v1', require('./routes/form'))
+app.use('/api/v1/form', apiLimiter)
 
 app.get('/', function (req, res) {
   res.status(400).end()
