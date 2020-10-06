@@ -25,7 +25,7 @@ function commandListForm(msg, match) {
   debug('Match', match)
   db
     .website
-    .findAll({ where: { userId: msg.from.id } })
+    .findAll({ where: { telegramId: msg.from.id } })
     .then(websites => {
       debug('Forms: ', websites)
       let sites = 'You did\'not set any form yet'
@@ -45,24 +45,24 @@ function commandListForm(msg, match) {
 
 function commandAddForm(msg, match) {
   debug(match)
-  let userId = msg.from.id
+  let telegramId = msg.from.id
   let url = match['input'].split(' ')[1]
   if (url == undefined) {
-    sendMessage(userId, 'You need to define url for your form')
+    sendMessage(telegramId, 'You need to define url for your form')
     return
   }
   let formId = nanoid(12)
   let confirmMsg = `Site:  ${url}\nFormID: ${formId}`
   db
     .user
-    .findOne({ where: { id: userId } })
+    .findOne({ where: { id: telegramId } })
     .then(user => {
       debug(user)
       if (user == null) {
         db
           .user
           .create({
-            id: userId,
+            telegramId,
             first_name: msg.from.first_name,
             username: msg.from.username,
             language_code: msg.from.language_code,
@@ -70,16 +70,17 @@ function commandAddForm(msg, match) {
             password_hash: '',
             isDeleted: false
           })
-          .then(() => {
-            createWebsiteAndPreference()
+          .then((user) => {
+            debug(JSON.stringify(user))
+            createWebsiteAndPreference(user.id)
           })
       } else {
-        createWebsiteAndPreference()
+        createWebsiteAndPreference(user.id)
       }
-      return
+      return 
     }).catch(err => { debug('Err', err); sendMessage('Our servers not available right now. Please try again later.') })
 
-  function createWebsiteAndPreference() {
+  function createWebsiteAndPreference(userId) {
     let tNotification= true
     db.website
       .create({ url, formId, userId })
