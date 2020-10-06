@@ -9,6 +9,7 @@ module.exports = {
       telegramId:  { type: Sequelize.INTEGER, primaryKey: true,unique: true,defaultValue:-1 },
       username: { type: Sequelize.STRING, unique: true },
       language_code: Sequelize.STRING,
+      photo_url: Sequelize.STRING,
       email: {type: Sequelize.STRING, unique: true },
       password_hash: Sequelize.STRING,
       isDeleted: { type: Sequelize.BOOLEAN, defaultValue: false },
