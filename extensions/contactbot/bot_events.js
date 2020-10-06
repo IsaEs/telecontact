@@ -55,9 +55,9 @@ function commandAddForm(msg, match) {
   let confirmMsg = `Site:  ${url}\nFormID: ${formId}`
   db
     .user
-    .findOne({ where: { id: telegramId } })
+    .findOne({ where: { telegramId } })
     .then(user => {
-      debug(user)
+      debug(JSON.stringify(user))
       if (user == null) {
         db
           .user
@@ -82,8 +82,9 @@ function commandAddForm(msg, match) {
 
   function createWebsiteAndPreference(userId) {
     let tNotification= true
+    debug( url, formId,telegramId,userId)
     db.website
-      .create({ url, formId, userId })
+      .create({ url, formId,telegramId,userId })
       .then(() => {
         db.preference.create({ formId, userId,tNotification })
         sendMessage(msg.chat.id, confirmMsg)
