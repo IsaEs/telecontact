@@ -1,7 +1,7 @@
 {
   "name": "teleform",
   "version": "1.0.0",
-  "description": "telegram static page contact notifier",
+  "description": "telecontact.me static page contact api and bot",
   "main": "server.js",
   "author": "IsaEs",
   "license": "MIT",
