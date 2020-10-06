@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    telegramId:  { type: DataTypes.INTEGER, primaryKey: true },
+    telegramId:  { type: DataTypes.INTEGER },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     username: { type: DataTypes.STRING, unique: true },
