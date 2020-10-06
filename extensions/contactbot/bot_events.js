@@ -124,7 +124,7 @@ function commandVerifyEmail(msg, match) {
     return
   } else {
     db.user
-      .findOne({ where: { id: msg.from.id } })
+      .findOne({ where: { telegramId: msg.from.id } })
       .then((user) => {
         debug(JSON.stringify(user))
         if (user.mailToken != null && user.mailToken == mailToken) {
