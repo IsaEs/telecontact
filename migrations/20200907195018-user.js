@@ -5,6 +5,8 @@ module.exports = {
     await queryInterface.createTable('users', {
       id: { type: Sequelize.INTEGER, primaryKey: true, unique: true, autoIncrement: true },
       first_name: Sequelize.STRING,
+      last_name: Sequelize.STRING,
+      telegramId:  { type: Sequelize.INTEGER, primaryKey: true,unique: true,defaultValue:-1 },
       username: { type: Sequelize.STRING, unique: true },
       language_code: Sequelize.STRING,
       email: {type: Sequelize.STRING, unique: true },

@@ -13,6 +13,15 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
+      telegramId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'telegramId',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
       messageCount: { type: Sequelize.INTEGER, defaultValue: 0 },
       updatedAt: Sequelize.DATE,
       createdAt: Sequelize.DATE
