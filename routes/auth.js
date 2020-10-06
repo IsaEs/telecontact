@@ -45,16 +45,17 @@ function telegram_login(req,res){
   const secret = createHash('sha256')
     .update(process.env.TELEGRAM_TOKEN)
     .digest()
-
+  debug(req.user)
   if (checkSignature(req.body.user)){
     if(req.user===403){
-      //TODO sign up send password
+      //TODO sign up send password  // No telegram login for now
     } else{
       //Check and assoc with current user
+      debug('Assoc')
     }
     res.status(200).json({message: 'Data From telegram'})
   }else {
-    res.status(400).json({message: 'Zoort'})
+    res.status(400).json({message: 'We could verify your data comes from telegram.'})
   }
 
   function checkSignature ({ hash, ...data }) {
