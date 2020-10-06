@@ -54,8 +54,6 @@ let handle_form = (req, res) => {
         mailer.sendMail(mailOptions)
       }
       if (website.preference.saveMessage) {
-        debug('Message Count:', website.messageCount)
-        website.increment('messageCount')
         db.message.create({
           name: req.body.name,
           email: req.body.replyto,
@@ -63,8 +61,13 @@ let handle_form = (req, res) => {
           formId,
           userId,
         }).catch(() => {
-          bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
+          if(website.preference.tNotification){
+            bot.sendMessage(userId, 'Sorry! We could not save last message we send!')
+          }
+          return res.status(404)
         })
+        website.increment('messageCount')
+        debug('Message Count:', website.messageCount)  
       }
       if(website.preference.tNotification){
         if(userId!==undefined || userId!=null){
