@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const website = sequelize.define('website', {
     url: { type: DataTypes.STRING, uniqe: true },
+    domainName: { type: DataTypes.STRING },
     formId: { type: DataTypes.STRING(12), primaryKey: true },
     userId: DataTypes.INTEGER,
     messageCount: { type: DataTypes.INTEGER, defaultValue: 0 },
