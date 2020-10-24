@@ -39,7 +39,11 @@ app.all('/api/v1/user*', validation.block)
 app.use('/api/v1', require('./routes/auth'))
 app.use('/api/v1/user', require('./routes/main'))
 app.use('/api/v1', require('./routes/form'))
+app.use('/api/v1', require('./routes/healtcheck'))
 app.use('/api/v1/form', apiLimiter)
+
+// Disable powered by express header
+app.disable('x-powered-by')
 
 app.get('/', function (req, res) {
   res.status(400).end()
