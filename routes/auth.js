@@ -87,6 +87,13 @@ let user_signup = (req,res) => {
     }).then(async (user)=>{
       let result = await user.authorize()
       res.send(result)
+    }).catch((err) => {
+      if (err.name === 'SequelizeUniqueConstraintError'){
+        res.status(200).send({ msg: 'Already registerd with this email!' })
+      }else{
+        debug(err)
+        res.status(200).send({ msg: 'Error while adding ' })
+      }   
     })
 
 }
