@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://telecontact.me">
-    <img src=".assets\telecontact.png" alt="Telecontact.me Logo" />
+    <img src="assets/telecontact.png" alt="Telecontact.me Logo" />
   </a>
 </p>
 <h3 align="center">TeleContact.me is a contact form solution for your websites.</h3>
