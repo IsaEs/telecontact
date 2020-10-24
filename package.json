@@ -6,8 +6,8 @@
   "author": "IsaEs",
   "license": "MIT",
   "scripts": {
-    "start": "node ./bin",
-    "serve": "nodemon ./bin --watch ."
+    "start": "node ./src/bin",
+    "serve": "nodemon ./src/bin --watch ."
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.5",
