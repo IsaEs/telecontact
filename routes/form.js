@@ -38,6 +38,7 @@ let handle_form = (req, res) => {
     })
     .then(website => {
       let userId = website.userId
+      let telegramId = website.telegramId
       let url = website.url
       if (!validateUrl(url)){
         res.status(200).json({message:'Form domain is invalid'})
@@ -74,8 +75,9 @@ let handle_form = (req, res) => {
           debug('Message Count:', website.messageCount)  
         }
         if(website.preference.tNotification){
-          if(userId!==undefined || userId!=null){
-            bot.sendMessage(userId, message, { parse_mode: 'html' })
+          if(telegramId!==undefined || telegramId!=null){
+            debug('TelegramId',telegramId)
+            bot.sendMessage(telegramId, message, { parse_mode: 'html' })
           }
         }
         res.sendStatus(200)
