@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./src/bin",
-    "serve": "nodemon ./src/bin --watch ."
+    "serve": "nodemon ./src/bin --watch .",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.5",
@@ -33,11 +34,15 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
+    "chai": "^4.2.0",
     "commitlint": "^8.3.5",
     "eslint": "^6.8.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
-    "nodemon": "^2.0.3"
+    "mocha": "^8.2.0",
+    "nodemon": "^2.0.3",
+    "request": "^2.88.2",
+    "should": "^13.2.3"
   },
   "lint-staged": {
     "*.{js,ts}": [
