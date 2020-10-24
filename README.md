@@ -1,13 +1,20 @@
-# Telecontact.me - API of your Contact page
+# Telecontact.me - API of your Contact page 👋
 
+<p align="center">
+  <a href="https://telecontact.me">
+    <img src=".assets\telecontact.png" alt="Telecontact.me Logo" />
+  </a>
+</p>
+<h3 align="center">TeleContact.me is a contact form solution for your websites.</h3>
+<p align="center"> A best free solution for static web pages.</p>
+<br />
+
+[![Express](https://img.shields.io/badge/express-4.17.1-blue)](https://telecontact.me)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://telecontact.me)
 
-TeleContact.me is a contact form solution for your websites. A free solution for static web pages.
+---
 
------------------
-
-You will instantly get messaged from the contact page to your phone via telegram. It allows you to create free endpoints and allow you to manage it.
-Telecontact me works integrated with Telegram so there is only the option to register telecontact.me by having a telegram account (for now) and start to use our telegram bot [telecontactformbot](https://telegram.me/telecontactformbot). After that, you can use the basic functions of telecontact.me. For extra features like saving messages or sending a notification email to your mail address, you can use a dashboard with [Signin](https://www.telecontact.me/signin) here. You need to password via our bot to Sign in with your telegram username.
+Telecontact.me works integrated with telegram if you have a telegram account. You will instantly get notification from your website visitors. It allows you to create free urls for your domains. You can start using telecontact.me with our [_Telegram Bot_](https://telegram.me/telecontactformbot) or for extra features like saving messages or sending a notifications to your mail address, you can [_Sign Up_](https://www.telecontact.me/signup) here.
 
 ## Contact Form Example
 
@@ -18,22 +25,25 @@ Telecontact me works integrated with Telegram so there is only the option to reg
 ```html
 <form action="https://telecontact.me/form/{HASH_ID}" method="POST">
   <label>
-   Name:
-  <input type="text" name="name">
+    Name:
+    <input type="text" name="name" />
   </label>
   <label>
-   Email:
-   <input type="email" name="replyto">
+    Email:
+    <input type="email" name="replyto" />
   </label>
   <label>
-  Message:
-  <textarea name="message"></textarea>
+    Message:
+    <textarea name="message"></textarea>
   </label>
-  <input type="submit" value="Send">
+  <input type="submit" value="Send" />
 </form>
 ```
 
-![Example Form](_readme_/exampleform.png "Example Form Telecontact")
+### Example Form
 
+![Example Form](.assets\exampleform.png "Example Form")
 
-![alt text](_readme_/telegram_message.png "Example Form Telecontact")
+### Instant Notification
+
+![Message](.assets\telegram_message.png "Telegram Message Example")
