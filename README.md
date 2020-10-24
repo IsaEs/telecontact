@@ -42,8 +42,8 @@ Telecontact.me works integrated with telegram if you have a telegram account. Yo
 
 ### Example Form
 
-![Example Form](.assets/exampleform.png "Example Form")
+![Example Form](assets/exampleform.png "Example Form")
 
 ### Instant Notification
 
-![Message](.assets/telegram_message.png "Telegram Message Example")
+![Message](assets/telegram_message.png "Telegram Message Example")
