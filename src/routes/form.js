@@ -3,7 +3,7 @@ let router = express.Router()
 const debug = require('debug')('app:routes:handle_form')
 const bot  = require('../extensions/contactbot')
 const db = require('../models')
-const { mailer } = require('../lib')
+const { validateUrl,mailer } = require('../lib')
 
 
 let handle_form = (req, res) => {
@@ -40,7 +40,9 @@ let handle_form = (req, res) => {
       let userId = website.userId
       let telegramId = website.telegramId
       let url = website.url
-      if (!validateUrl(url)){
+      let headers = req.headers
+      
+      if (!validateUrl(headers.referer,headers.origin,url)){
         res.status(200).json({message:'Form domain is invalid'})
         return  
       }else{
@@ -87,17 +89,6 @@ let handle_form = (req, res) => {
       debug(err)
       res.sendStatus(500)
     })
-
-  function validateUrl(url){
-    //TODO more advance url referer check this will not work
-    if(req.headers.referer===url){
-      return true
-    }
-    else{
-      return false
-    }
-  }
-
 }
 
 router.post('/form/:formid', handle_form)
