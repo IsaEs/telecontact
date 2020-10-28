@@ -6,7 +6,7 @@
   </a>
 </p>
 <h3 align="center">TeleContact.me is a contact form solution for your websites.</h3>
-<p align="center"> A best free solution for static web pages.</p>
+<p align="center"> The best free solution for static web pages.</p>
 <br />
 
 [![Express](https://img.shields.io/badge/express-4.17.1-blue)](https://telecontact.me)
