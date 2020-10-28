@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const formController = require('../controllers/FormController')
+const submissionController = require('../controllers/SubmissionController')
 
-router.post('/form/:formid',formController.handle_form)
+router.post('/form/:formid',submissionController.handle_form)
 
 module.exports = router
