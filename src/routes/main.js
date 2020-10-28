@@ -5,24 +5,6 @@ const debug = require('debug')('app:routes:main')
 const { mailer } = require('../lib')
 const { nanoid } = require('nanoid')
 
-let getUserMessages = (req, res) => {
-  debug(req.user)
-  db
-    .message
-    .findAll({
-      where: { userId: req.user.id },
-      attributes: { exclude: ['createdAt', 'userId'] },
-      include: [{
-        model: db.website,
-        as: 'website',
-        attributes: ['url']
-      }]
-    })
-    .then(message => {
-      return res.status(200).json(message)
-    })
-}
-
 let getUserForms = (req, res) => {
   db
     .website
@@ -109,37 +91,6 @@ let deleteForm = (req, res) => {
   res.status(200).send({ msg: 'Form Updated' })
 }
 
-let deleteMessages = (req, res) => {
-  debug(req.user)
-  if (!req.body.formId) {
-    res.status(500).send({ error: 'You have to set the formId.' })
-    return
-  }
-  if (!req.body.messages) {
-    res.status(500).send({ error: 'You need to set at least one message id.' })
-    return
-  }
-  let Op = db.Sequelize.Op
-  let messages = req.body.messages
-  let where = {}
-  if (Array.isArray(messages)) {
-    where = {
-      formId: req.body.formId,
-      id: { [Op.in]: messages }
-    }
-  } else {
-    where = {
-      formId: req.body.formId,
-      id: messages
-    }
-  }
-
-  db.message.destroy({ where }).then((data) => {
-    debug(data)
-    res.status(200).send({ msg: 'Updated' })
-  })
-}
-
 let getProfile = (req, res) => {
   debug(req.user)
   db
@@ -184,13 +135,11 @@ let addForm =(req,res)=>{
 }
 
 router.get('/profile',getProfile)
-router.get('/messages', getUserMessages)
 router.get('/forms', getUserForms)
 router.get('/preferences', getPreferences)
 router.put('/preferences', updateUserPreferences)
 router.put('/email', updateEmail)
 router.post('/forms', deleteForm)
 router.put('/form/add', addForm)
-router.post('/messages', deleteMessages)
 
 module.exports = router
