@@ -3,7 +3,7 @@ const express = require('express')
 let app = express()
 
 // Telegram extension 
-const bot  = require('../contactbot')
+const bot  = require('../lib')
 // Activate Telegram Bot
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 if (TELEGRAM_TOKEN != '') {
@@ -14,6 +14,6 @@ if (TELEGRAM_TOKEN != '') {
   })
 }
 // All Bot Events
-require('../contactbot/bot_events') 
+require('../events/bot_events') 
 
 module.exports = app

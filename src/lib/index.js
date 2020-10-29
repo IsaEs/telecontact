@@ -11,15 +11,14 @@ exports.formattedTime = (msgDate) => {
 }
 
 exports.validateUrl = (referrer,origin,url) => {
-  let referrerGroups = referrer.match(domainRegex).groups
-  let originGroups = origin.match(domainRegex).groups
-  let urlGroups = url.match(domainRegex).groups
-  console.log(referrerGroups,originGroups,urlGroups)
+  let referrerGroups = typeof referrer === 'string' ?  referrer.match(domainRegex).groups : ''
+  let originGroups = typeof referrer === 'string' ? origin.match(domainRegex).groups : ''
+  let urlGroups = typeof referrer === 'string' ? url.match(domainRegex).groups : ''
   if (urlGroups.domain === originGroups.domain || urlGroups.domain === referrerGroups.domain){
     return true
   }else {
     return false
-  }
+  }  
 }
 
 exports.checkSignature =   ({ hash, ...data }, token) => {

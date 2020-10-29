@@ -1,10 +1,10 @@
 
 const { nanoid } = require('nanoid')
-const db = require('../../models/index')
-const { formattedTime, mailer  } = require('../../lib')
+const db = require('../../../models/index')
+const { formattedTime, mailer  } = require('../../../lib')
 const debug = require('debug')('app:extensions:contactbot')
 const bcrypt = require('bcrypt')
-const bot = require('./index')
+const bot = require('../lib/index')
 
 bot.on('message', onMessage)
 bot.on('polling_error', onPollingError)

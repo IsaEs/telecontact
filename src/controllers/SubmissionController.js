@@ -1,6 +1,6 @@
 
-const debug = require('debug')('app:routes:handle_form')
-const bot  = require('../extensions/contactbot')
+const debug = require('debug')('app:controller:submission')
+const bot  = require('../extensions/contactbot/lib')
 const db = require('../models')
 const { validateUrl,mailer } = require('../lib')
 
