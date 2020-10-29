@@ -1,5 +1,6 @@
 const domainRegex = /(?<protocol>https?:\/\/)?(?<site>(?<subdomain>(([\w-]+)\.)*)(?<domain>[\w-]+)((?<tld>\.[A-Za-z]{1,3})){1,2})(?<path>\/[\w.-]+)*/i
- 
+const { createHash, createHmac } = require('crypto')
+
 exports.formattedTime = (msgDate) => {
   let date = new Date(msgDate * 1000)
   let hours = date.getHours()
@@ -19,6 +20,20 @@ exports.validateUrl = (referrer,origin,url) => {
   }else {
     return false
   }
+}
+
+exports.checkSignature =   ({ hash, ...data }, token) => {
+  const secret = createHash('sha256')
+    .update(token)
+    .digest()
+  const checkString = Object.keys(data)
+    .sort()
+    .map(k => (`${k}=${data[k]}`))
+    .join('\n')
+  const hmac = createHmac('sha256', secret)
+    .update(checkString)
+    .digest('hex')
+  return hmac === hash
 }
 
 

@@ -1,5 +1,5 @@
 let db = require('../models/index')
-const { createHash, createHmac } = require('crypto')
+const { checkSignature } = require('../lib') 
 const debug = require('debug')('app:routes:signin')
 const bcrypt = require('bcrypt')
 
@@ -40,11 +40,9 @@ let user_signin = async (req, res) => {
 
 
 function telegram_login(req,res){
-  const secret = createHash('sha256')
-    .update(process.env.TELEGRAM_TOKEN)
-    .digest()
+  
   debug(req.user)
-  if (checkSignature(req.body.user)){
+  if (checkSignature(req.body.user,process.env.TELEGRAM_TOKEN)){
     if(req.user===403){
       //TODO sign up send password  // No telegram login for now
     } else{
@@ -54,18 +52,6 @@ function telegram_login(req,res){
     res.status(200).json({message: 'Data From telegram'})
   }else {
     res.status(400).json({message: 'We could verify your data comes from telegram.'})
-  }
-
-  function checkSignature ({ hash, ...data }) {
-    debug(data)
-    const checkString = Object.keys(data)
-      .sort()
-      .map(k => (`${k}=${data[k]}`))
-      .join('\n')
-    const hmac = createHmac('sha256', secret)
-      .update(checkString)
-      .digest('hex')
-    return hmac === hash
   }
 }
 
