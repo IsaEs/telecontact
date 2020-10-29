@@ -4,6 +4,7 @@ dotnev.config()
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 const debug = require('debug')('app:www')
 const app = require('../app')
+require('../extensions/app/index')
 const http = require('http')
 
 function start(port) {

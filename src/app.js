@@ -16,26 +16,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-
-const bot  = require('./extensions/contactbot')
-// Activate Telegram Bot
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
-if (TELEGRAM_TOKEN != '') {
-  // Telegram bot receiving updates at the route below
-  app.post(`/bot${TELEGRAM_TOKEN}`, (req, res) => {
-    bot.processUpdate(req.body)
-    res.sendStatus(200)
-  })
-}
-// All Bot Events
-require('./extensions/contactbot/bot_events') 
-
-
 app.all(asterisk, require('./middlewares/crossOrigin'))
 app.all(asterisk, validation.verify)
 app.all('/api/v1/user*', validation.block)
 
-// Api 
+// Api Routes
 app.use('/api/v1', require('./routes/auth'))
 app.use('/api/v1/user', require('./routes/profile'))
 app.use('/api/v1/user', require('./routes/messages'))
