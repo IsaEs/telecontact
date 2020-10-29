@@ -14,22 +14,19 @@ let getUserForms = (req, res) => {
     })
 }
 
-let deleteForm = (req, res) => {
-  debug(req.user)
-  debug(req.hostname)
+let deleteForm = async (req, res) => {
   if (!req.body.formId) {
     res.status(500).send({ error: 'You have to set the formId.' })
     return
   }
-  db.website
-    .destroy({
-      where: {
-        formId: req.body.formId,
-        userId: req.user.id
-      }
-    })
 
-  res.status(200).send({ msg: 'Form Updated' })
+  let where = { formId: req.body.formId, userId: req.user.id }
+  try {
+    await db.website.destroy({where})
+    res.status(204).send({ msg: 'Form Deleted' })
+  } catch (error) {
+    res.status(200).send({ msg: 'Error while deleting form' })
+  }
 }
 
 let addForm = async (req,res)=>{
@@ -53,6 +50,11 @@ let addForm = async (req,res)=>{
 }
 
 
+let updateForm = async (req,res)=>{
+  res.status(200).send({ msg: 'TODO update Form' })
+}
+
 exports.addForm = addForm
 exports.deleteForm = deleteForm
 exports.getUserForms = getUserForms
+exports.updateForm = updateForm
