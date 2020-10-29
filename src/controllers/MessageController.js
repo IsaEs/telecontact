@@ -2,25 +2,28 @@ let db = require('../models/index')
 const debug = require('debug')('app:routes:main')
 
 
-let getUserMessages = (req, res) => {
+let getUserMessages = async (req, res) => {
   debug(req.user)
-  db
-    .message
-    .findAll({
-      where: { userId: req.user.id },
-      attributes: { exclude: ['createdAt', 'userId'] },
-      include: [{
-        model: db.website,
-        as: 'website',
-        attributes: ['url']
-      }]
-    })
-    .then(message => {
-      return res.status(200).json(message)
-    })
+  try {
+    let message = await db
+      .message
+      .findAll({
+        where: { userId: req.user.id },
+        attributes: { exclude: ['createdAt', 'userId'] },
+        include: [{
+          model: db.website,
+          as: 'website',
+          attributes: ['url']
+        }]
+      })
+    res.status(200).json(message)
+  } catch (error) {
+    debug(error)
+    res.status(500).send({ msg: 'Error while getting messages' })
+  }
 }
 
-let deleteMessages = (req, res) => {
+let deleteMessages = async (req, res) => {
   debug(req.user)
   if (!req.body.formId) {
     res.status(500).send({ error: 'You have to set the formId.' })
@@ -44,11 +47,13 @@ let deleteMessages = (req, res) => {
       id: messages
     }
   }
-
-  db.message.destroy({ where }).then((data) => {
-    debug(data)
+  try {
+    await db.message.destroy({ where })
     res.status(200).send({ msg: 'Updated' })
-  })
+  } catch (error) {
+    debug(error)
+    res.status(500).send({ msg: 'Error while deleting and object' })
+  }
 }
 
 
