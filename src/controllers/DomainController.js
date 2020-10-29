@@ -32,7 +32,7 @@ let deleteForm = (req, res) => {
   res.status(200).send({ msg: 'Form Updated' })
 }
 
-let addForm =(req,res)=>{
+let addForm = async (req,res)=>{
   let userId =  req.user.id
   let formId = nanoid(12)
   if (!req.body.domain) {
@@ -40,16 +40,16 @@ let addForm =(req,res)=>{
     return
   }
   let url = req.body.domain
-  db.website
-    .create({ url, formId, userId })
-    .then(() => {
-      db.preference.create({ formId, userId })
-      res.status(200).send({ url,formId })
-    })
-    .catch((err) => {
-      debug(err)
-      res.status(200).send({ msg: 'Error while adding ' })
-    })
+
+  try {
+    let website = await db.website.create({ url, formId, userId })
+    debug(JSON.stringify(website))
+    let prefs = await db.preference.create({ formId, userId })
+    res.status(201).send({ url,formId, prefs })
+  } catch (error) {
+    debug(error)
+    res.status(200).send({ msg: 'Error while adding ' })
+  }
 }
 
 
