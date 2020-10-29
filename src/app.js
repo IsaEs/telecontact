@@ -37,7 +37,7 @@ app.all('/api/v1/user*', validation.block)
 
 // Api 
 app.use('/api/v1', require('./routes/auth'))
-app.use('/api/v1/user', require('./routes/main'))
+app.use('/api/v1/user', require('./routes/profile'))
 app.use('/api/v1/user', require('./routes/messages'))
 app.use('/api/v1/user', require('./routes/prefs'))
 app.use('/api/v1/user', require('./routes/form'))
