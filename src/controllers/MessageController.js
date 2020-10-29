@@ -48,8 +48,8 @@ let deleteMessages = async (req, res) => {
     }
   }
   try {
-    await db.message.destroy({ where })
-    res.status(200).send({ msg: 'Updated' })
+    let record = await db.message.destroy({ where })
+    res.status(200).send({ msg: `${record} record(s) deleted` })
   } catch (error) {
     debug(error)
     res.status(500).send({ msg: 'Error while deleting and object' })
