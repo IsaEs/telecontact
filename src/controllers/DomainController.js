@@ -50,7 +50,26 @@ let addForm = async (req,res)=>{
 
 
 let updateForm = async (req,res)=>{
-  res.status(200).send({ msg: 'TODO update Form' })
+  let defaults = {}
+  if (!req.body.formId) {
+    res.status(500).send({ msg: 'You have to set formId.' })
+    return
+  }
+  if (!req.body.name && ! req.body.domain ) {
+    res.status(500).send({ msg: 'You have  to set at least on preferences.' })
+    return
+  }
+  
+  defaults.domainName = req.body.name
+  defaults.domain = req.body.domain
+  defaults.formId = req.body.formId
+
+  try {
+    await db.website.upsert(defaults)
+    res.sendStatus(201)
+  } catch (error) {
+    res.status(200).json({ msg: 'Error while updating!'})
+  }
 }
 
 exports.addForm = addForm
