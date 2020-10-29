@@ -14,6 +14,6 @@ if (TELEGRAM_TOKEN != '') {
   })
 }
 // All Bot Events
-require('../events/bot_events') 
+require('../events') 
 
 module.exports = app
