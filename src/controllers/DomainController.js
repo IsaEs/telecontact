@@ -1,5 +1,5 @@
 let db = require('../models/index')
-const debug = require('debug')('app:routes:main')
+const debug = require('debug')('app:routes:domain')
 const { nanoid } = require('nanoid')
 const isValidDomain = require('is-valid-domain')
 
@@ -25,7 +25,7 @@ let deleteForm = async (req, res) => {
     await db.website.destroy({where})
     res.status(204).send({ msg: 'Form Deleted' })
   } catch (error) {
-    res.status(200).send({ msg: 'Error while deleting form' })
+    res.status(500).send({ msg: 'Error while deleting form' })
   }
 }
 
@@ -33,13 +33,13 @@ let addForm = async (req,res)=>{
   let userId =  req.user.id
   let formId = nanoid(12)
   if (!req.body.domain || !req.body.name) {
-    res.status(400).send({ error: 'You have to set the domain name.' })
+    res.status(400).send({ msg: 'You have to set the domain name.' })
     return
   }
   let url = req.body.domain
   let domainName = req.body.name
   if(!isValidDomain(url, {subdomain: false})){
-    res.status(400).send({ error: 'You domain name is not valid.' })
+    res.status(400).send({ msg: 'You domain name is not valid.' })
     return
   }
  
@@ -50,31 +50,31 @@ let addForm = async (req,res)=>{
     res.status(201).send({ url,formId, prefs })
   } catch (error) {
     debug(error)
-    res.status(200).send({ msg: 'Error while adding form' })
+    res.status(500).send({ msg: 'Error while adding form' })
   }
 }
 
 
 let updateForm = async (req,res)=>{
-  let defaults = {}
   if (!req.body.formId) {
-    res.status(500).send({ msg: 'You have to set formId.' })
+    res.status(400).send({ msg: 'You have to set formId.' })
     return
   }
   if (!req.body.name && ! req.body.domain ) {
-    res.status(500).send({ msg: 'You have  to set at least on preferences.' })
+    res.status(400).send({ msg: 'You have  to set at least on preferences.' })
     return
   }
   
-  defaults.domainName = req.body.name
-  defaults.domain = req.body.domain
-  defaults.formId = req.body.formId
-
   try {
-    await db.website.upsert(defaults)
+    let data = await db.website.update({domainName: req.body.name}, {where: {formId: req.body.formId}})
+    if (data[0]===0){
+      res.status(404).send({ msg: 'We didn`t found any matched record.' })
+      return
+    }
     res.sendStatus(201)
   } catch (error) {
-    res.status(200).json({ msg: 'Error while updating!'})
+    debug(error)
+    res.status(500).json({ msg: 'Error while updating!'})
   }
 }
 
