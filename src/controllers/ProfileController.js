@@ -26,11 +26,9 @@ let updateEmail = (req, res) => {
   res.status(200).send({ msg: 'Email Updated' })
 }
 
-let getProfile = (req, res) => {
-  debug(req.user)
-  db
-    .user
-    .findOne({
+let getProfile = async (req, res) => {
+  try {
+    let profile = await db.user.findOne({
       where: { id: req.user.id },
       include:[{
         model:db.website,
@@ -44,9 +42,11 @@ let getProfile = (req, res) => {
       }],
       attributes: { exclude: ['password_hash','mailToken','createdAt', 'updatedAt'] }
     })
-    .then(message => {
-      return res.status(200).json(message)
-    })
+    res.status(200).json(profile)
+  } catch (error) {
+    debug(error)
+    res.status(500).send({ msg: 'Error while deleting and object' })
+  }
 }
 
 exports.getProfile = getProfile
