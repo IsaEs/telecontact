@@ -10,7 +10,7 @@ let getUserForms = async (req, res) => {
     let message = await db.website.findAll({where,attributes})
     return res.status(200).json(message) 
   } catch (error) {
-    return res.status(500).json({ msg: 'Error while creating form' }) 
+    return res.status(500).json({ msg: 'Error while getting forms' }) 
   }
 }
 

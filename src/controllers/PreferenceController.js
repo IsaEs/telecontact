@@ -14,11 +14,11 @@ let getPreferences = (req, res) => {
 let updateUserPreferences = (req, res) => {
   let defaults = {}
   if (!req.body.formId) {
-    res.status(500).send({ error: 'You have to set formId.' })
+    res.status(400).send({ msg: 'You have to set formId.' })
     return
   }
   if (!req.body.preference || (!req.body.preference.saveMessage && !req.body.preference.sendMail) ) {
-    res.status(500).send({ error: 'You have  to set at least on preferences.' })
+    res.status(400).send({ msg: 'You have  to set at least on preferences.' })
     return
   }
   let prefs = req.body.preference
@@ -30,7 +30,7 @@ let updateUserPreferences = (req, res) => {
   defaults.formId = req.body.formId
 
   db.preference.upsert(defaults)
-  return res.status(200).json({ status: 'okay' })
+  return res.status(200).json({ msg: 'Preference Created' })
 }
 
 exports.getPreferences = getPreferences
