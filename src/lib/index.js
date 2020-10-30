@@ -12,8 +12,8 @@ exports.formattedTime = (msgDate) => {
 
 exports.validateUrl = (referrer,origin,url) => {
   let referrerGroups = typeof referrer === 'string' ?  referrer.match(domainRegex).groups : ''
-  let originGroups = typeof referrer === 'string' ? origin.match(domainRegex).groups : ''
-  let urlGroups = typeof referrer === 'string' ? url.match(domainRegex).groups : ''
+  let originGroups = typeof origin === 'string' ? origin.match(domainRegex).groups : ''
+  let urlGroups = typeof url === 'string' ? url.match(domainRegex).groups : ''
   if (urlGroups.domain === originGroups.domain || urlGroups.domain === referrerGroups.domain){
     return true
   }else {
