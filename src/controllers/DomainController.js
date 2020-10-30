@@ -1,6 +1,7 @@
 let db = require('../models/index')
 const debug = require('debug')('app:routes:main')
 const { nanoid } = require('nanoid')
+const isValidDomain = require('is-valid-domain')
 
 let getUserForms = async (req, res) => {
   let where = { userId: req.user.id }
@@ -32,11 +33,16 @@ let addForm = async (req,res)=>{
   let userId =  req.user.id
   let formId = nanoid(12)
   if (!req.body.domain || !req.body.name) {
-    res.status(500).send({ error: 'You have to set the domain name.' })
+    res.status(400).send({ error: 'You have to set the domain name.' })
     return
   }
   let url = req.body.domain
   let domainName = req.body.name
+  if(!isValidDomain(url, {subdomain: false})){
+    res.status(400).send({ error: 'You domain name is not valid.' })
+    return
+  }
+ 
   try {
     let website = await db.website.create({ url, domainName , formId, userId })
     debug(JSON.stringify(website))
