@@ -5,7 +5,7 @@ let url = (str)=> {return apiUrl + str}
 let api = {
   healtcheck : url('healtcheck'), //GET
   submission: url('form'), // POST
-  user: url('user/forms'), // CRUD
+  domain: url('user/forms'), // CRUD
   updateEmail: url('user/email'), // PUT
   preferences: url('user/preferences'), // GET, PUT
   profile: url('user/profile'),
