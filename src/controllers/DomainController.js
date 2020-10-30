@@ -10,7 +10,32 @@ let getUserForms = async (req, res) => {
     let message = await db.website.findAll({where,attributes})
     return res.status(200).json(message) 
   } catch (error) {
-    return res.status(200).json({ msg: 'Error while creating form' }) 
+    return res.status(500).json({ msg: 'Error while creating form' }) 
+  }
+}
+
+let getUserFormById = async (req, res) => {
+  let where = { userId: req.user.id, formId: req.params.formId }
+  let attributes = { exclude: ['createdAt', 'userId','formId'] }
+  let include  = [{
+    model:db.preference,
+    as:'preference',
+    attributes: ['sendMail','tNotification','saveMessage']
+  },
+  {
+    model:db.message,
+    as:'messages',
+    attributes
+  }]
+  try {
+    let message = await db.website.findOne({where,attributes,include})
+    if(message===null){
+      return res.sendStatus(204) 
+    }
+    return res.status(200).json(message) 
+  } catch (error) {
+    debug(error)
+    return res.status(500).json({ msg: 'Error while getting form' }) 
   }
 }
 
@@ -82,3 +107,4 @@ exports.addForm = addForm
 exports.deleteForm = deleteForm
 exports.getUserForms = getUserForms
 exports.updateForm = updateForm
+exports.getUserFormById = getUserFormById

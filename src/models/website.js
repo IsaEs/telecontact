@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     website.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id' })
     website.belongsTo(models.user, { foreignKey: 'telegramId', targetKey: 'telegramId' })
     website.hasOne(models.preference, { foreignKey: 'formId', targetKey: 'formId' })
+    website.hasMany(models.message, { foreignKey: 'formId', targetKey: 'formId' })
   }
   return website
 }
