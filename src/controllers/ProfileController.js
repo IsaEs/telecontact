@@ -2,14 +2,16 @@ let db = require('../models/index')
 const debug = require('debug')('app:routes:main')
 const { mailer } = require('../lib')
 const { nanoid } = require('nanoid')
+const mailValidator = require('email-validator')
 
 let updateEmail = (req, res) => {
   debug(req.user)
   if (!req.body.email) {
-    res.status(500).send({ error: 'You have to set the email or username.' })
-    return
+    return res.status(500).send({ msg: 'You have to set the email or username.' })
   }
-  //TODO check email is valid or not
+  if (!mailValidator.validate(req.body.email)){
+    return res.status(400).send({ msg: 'You email address is not valid.' })
+  }
   let mailToken = nanoid(6)
   const mailOptions = {
     from: 'Telecontact <no-reply@telecontact.me>',

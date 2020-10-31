@@ -5,6 +5,7 @@ const { formattedTime, mailer  } = require('../../../lib')
 const debug = require('debug')('app:extensions:contactbot')
 const bcrypt = require('bcrypt')
 const bot = require('../lib/index')
+const mailValidator = require('email-validator')
 
 bot.on('message', onMessage)
 bot.on('polling_error', onPollingError)
@@ -103,7 +104,9 @@ function commandSetEmail(msg, match) {
     sendMessage(msg.from.id, 'You need to define email after command')
     return
   }
-  // TODO Email check
+  if (!mailValidator.validate(email)){
+    return sendMessage(msg.from.id, 'You email address is not valid.')
+  }
   let mailToken = nanoid(6)
   const mailOptions = {
     from: 'Telecontact <no-reply@telecontact.me>',
