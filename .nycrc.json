@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "include": [
+    "src/**/*.js",
+    "test/**/*.test.js"
+  ],
+  "reporter": ["html", "cobertura", "text-summary"],
+  "exclude": [
+    "src/models/*.js",
+    "src/migrations/*.js"
+  ]
+}
