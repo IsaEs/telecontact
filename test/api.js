@@ -14,13 +14,4 @@ let api = {
   signin : url('signin')
 }
 
-api.toJson = (body) => { 
-  try{
-    return JSON.parse(body)
-  }
-  catch(e){
-    return {}
-  }
-} 
-
 module.exports = api
