@@ -1,3 +1,6 @@
+const dotnev = require('dotenv')
+dotnev.config()
+
 exports.mail_config = {
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
